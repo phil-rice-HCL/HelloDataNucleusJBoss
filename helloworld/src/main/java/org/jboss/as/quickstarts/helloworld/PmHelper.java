@@ -8,8 +8,7 @@ import javax.jdo.Transaction;
 public interface PmHelper {
 
     static <T> T usePM(FunctionWithException<PersistenceManager, T> fn) {
-        PersistenceManagerFactory factory = JDOHelper.getPersistenceManagerFactory("hello-world");
-        //@PersistenceContext(type = PersistenceContextType.EXTENDED, unitName="hello-world")
+        PersistenceManagerFactory factory = JDOHelper.getPersistenceManagerFactory("hello-world-oracle");
         PersistenceManager pm = factory.getPersistenceManager();
         try {
             return fn.apply(pm);

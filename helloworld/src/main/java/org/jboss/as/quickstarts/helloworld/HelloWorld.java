@@ -80,7 +80,7 @@ public class HelloWorld {
     }
 
     public String selectAllReturnString() {
-        return PmHelper.usePopulatedDb(pm -> {
+        return PmHelper.usePM(pm -> {
             Query q2 = pm.newQuery("SELECT FROM " + HelloWorld.class.getName());
             List result = q2.executeList ();
             System.out.println(result.toString());

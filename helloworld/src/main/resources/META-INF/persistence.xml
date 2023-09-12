@@ -3,19 +3,18 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd" version="2.2">
-
-  <persistence-unit name="hello-world">
-    <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+    <persistence-unit name="hello-world-oracle">
+    <jta-data-source>java:/OracleDS</jta-data-source>
     <class>org.jboss.as.quickstarts.helloworld.HelloWorld</class>
 <!--    <exclude-unlisted-classes/>-->
     <properties>
-      <property name="datanucleus.schema.autoCreateAll" value="true"/>
-      <property name="datanucleus.generateSchema.database.mode" value="drop-and-create"/>
-
-      <property name="datanucleus.ConnectionDriverName" value="org.h2.Driver"/>
-      <property name="datanucleus.ConnectionURL" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"/>
-      <property name="datanucleus.ConnectionUserName" value="SA"/>
-      <property name="datanucleus.ConnectionPassword" value="SA"/>
+     <!--  <property name="datanucleus.schema.autoCreateAll" value="true"/> -->
+      <property name="datanucleus.generateSchema.database.mode" value="none"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
+      <property name="datanucleus.ConnectionDriverName" value="oracle.jdbc.driver.OracleDriver"/>
+      <property name="datanucleus.ConnectionURL" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+      <property name="datanucleus.ConnectionUserName" value="System"/>
+      <property name="datanucleus.ConnectionPassword" value="admin"/>
     </properties>
   </persistence-unit>
 </persistence>
