@@ -23,8 +23,12 @@ import javax.jdo.Query;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.datastore.JDOConnection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 
 /**
@@ -34,7 +38,7 @@ import java.util.List;
  */
 
 
-@PersistenceCapable(table="helloworld")
+@PersistenceCapable(table = "helloworld")
 @Entity
 public class HelloWorld {
 
@@ -71,7 +75,7 @@ public class HelloWorld {
         PmHelper.usePopulatedDb(pm -> {
             while (true) {
                 Query q2 = pm.newQuery("SELECT hw FROM HelloWorld hw", HelloWorld.class);
-                List result = q2.executeList ();
+                List result = q2.executeList();
                 logger.info(result.toString());
                 System.out.println(result.toString());
                 Thread.sleep(500);
@@ -81,13 +85,32 @@ public class HelloWorld {
 
     public String selectAllReturnString() {
         return PmHelper.usePopulatedDb(pm -> {
+            JDOConnection dataStoreConnection = pm.getDataStoreConnection();
+            try {
+                Connection connection = (Connection) dataStoreConnection.getNativeConnection();
+                try (Statement stmt = connection.createStatement()) {
+                    try (ResultSet rs = stmt.executeQuery("SELECT * FROM helloworld")) {
+                        while (rs.next()) {
+                            System.out.println(rs.getString("hellomessage"));
+                        }
+                    }
+                }
+            } finally {
+                dataStoreConnection.close();
+            }
+
             Query q2 = pm.newQuery("SELECT FROM " + HelloWorld.class.getName());
-            List result = q2.executeList ();
+            List result = q2.executeList();
             System.out.println(result.toString());
             return "Result" + result.toString();
         });
     }
     public void setMessageId(int messageId) {
         this.messageId = messageId;
+    }
+
+    public static void main(String[] args) throws Exception {
+        HelloWorld hw = new HelloWorld();
+        hw.selectAll();
     }
 }
