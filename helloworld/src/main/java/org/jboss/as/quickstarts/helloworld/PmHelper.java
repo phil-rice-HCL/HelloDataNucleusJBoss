@@ -37,7 +37,7 @@ String connectionUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALS
 try (Connection connection = DriverManager.getConnection(connectionUrl,"sa", "sa");) {
 try (Statement stmt = connection.createStatement()) {
 try {
-stmt.execute("DROP TABLE helloworld");
+stmt.execute("DROP TABLE IF EXISTS helloworld");
 } catch (Exception e) {logger.info("Ignoring exception", e);}
 stmt.execute("CREATE TABLE helloworld (messageId INTEGER, hellomessage VARCHAR(255))");
 stmt.execute("INSERT INTO helloworld VALUES (1, 'Hello')");
