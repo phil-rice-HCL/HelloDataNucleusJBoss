@@ -5,13 +5,16 @@
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd" version="2.2">
 
   <persistence-unit name="hello-world">
-    <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+    <non-jta-data-source>java:jboss/datasources/ExampleDS</non-jta-data-source>
     <class>org.jboss.as.quickstarts.helloworld.HelloWorld</class>
 <!--    <exclude-unlisted-classes/>-->
     <properties>
       <property name="datanucleus.schema.autoCreateAll" value="true"/>
       <property name="datanucleus.generateSchema.database.mode" value="drop-and-create"/>
-
+	 <!--  <property name="javax.jdo.option.TransactionType" value="JTA"/> -->
+	  <property name="datanucleus.NontransactionalRead" value="true"/>
+	  <property name="datanucleus.NontransactionalWrite" value="true"/>
+	  <property name="datanucleus.nontx.atomic" value="true"/>
       <property name="datanucleus.ConnectionDriverName" value="org.h2.Driver"/>
       <property name="datanucleus.ConnectionURL" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"/>
       <property name="datanucleus.ConnectionUserName" value="SA"/>
