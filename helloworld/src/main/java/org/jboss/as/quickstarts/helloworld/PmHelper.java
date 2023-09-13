@@ -8,7 +8,6 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -33,9 +32,9 @@ public interface PmHelper {
     }
 
     static void populateDb() throws SQLException {
-String connectionUrl = "jdbc:oracle:thin:@localhost:1521:xe";
+String connectionUrl = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE";
 
-try (Connection connection = DriverManager.getConnection(connectionUrl,"System", "admin");) {
+try (Connection connection = DriverManager.getConnection(connectionUrl,"sa", "sa");) {
 try (Statement stmt = connection.createStatement()) {
 try {
 stmt.execute("DROP TABLE helloworld");
@@ -44,11 +43,11 @@ stmt.execute("CREATE TABLE helloworld (messageId INTEGER, hellomessage VARCHAR(2
 stmt.execute("INSERT INTO helloworld VALUES (1, 'Hello')");
 stmt.execute("INSERT INTO helloworld VALUES (2, 'Bonjour')");
 System.out.println("Populated DB");
-try (ResultSet rs = stmt.executeQuery("SELECT * FROM helloworld")) {
-while (rs.next()) {
-System.out.println(rs.getString("hellomessage"));
-}
-}
+//try (ResultSet rs = stmt.executeQuery("SELECT * FROM helloworld")) {
+//while (rs.next()) {
+//System.out.println(rs.getString("hellomessage"));
+//}
+//}
 }
 }
     }

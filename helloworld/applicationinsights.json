@@ -1,0 +1,7 @@
+{
+  "connectionString": "your connection string here",
+  "role":             {
+    "name":     "your-machine",
+    "instance": "your-machine"
+  }
+}
